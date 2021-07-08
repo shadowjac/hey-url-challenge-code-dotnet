@@ -1,11 +1,9 @@
-﻿using hey_url_challenge_code_dotnet.Models;
-using hey_url_challenge_code_dotnet.Services;
+﻿using hey_url_challenge_code_dotnet.Services;
 using hey_url_challenge_code_dotnet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Shyjus.BrowserDetection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -46,7 +44,7 @@ namespace HeyUrlChallengeCodeDotnet.Controllers
                 throw new ArgumentException($"'{nameof(model.NewUrl.OriginalUrl)}' cannot be null or empty.", nameof(model.NewUrl.OriginalUrl));
             }
             var isValidUrl = Regex.IsMatch(model.NewUrl.OriginalUrl, @"^http(s)?://([\w-]+.)+[\w-]+(/[\w- ./?%&=])?$");
-            if(!isValidUrl)
+            if (!isValidUrl)
             {
                 TempData["Notice"] = "Invalid URL";
                 return RedirectToAction("Index");
@@ -69,7 +67,7 @@ namespace HeyUrlChallengeCodeDotnet.Controllers
             }
         }
 
-        [Route("urls/{url}")]
+        [Route("stats/{url}")]
         public async Task<IActionResult> ShowAsync(string url)
         {
             var urlInfo = await shortUrlService.GetUrlByShortUrlAsync(url);

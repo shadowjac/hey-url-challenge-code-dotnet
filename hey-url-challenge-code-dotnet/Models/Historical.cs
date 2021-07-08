@@ -1,11 +1,12 @@
-﻿using System;
+﻿using JsonApiDotNetCore.Resources;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace hey_url_challenge_code_dotnet.Models
 {
-    public class Historical
+    public class Historical : Identifiable<Guid>
     {
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
         [Required]
         [StringLength(50)]
         public string BrowserName { get; set; }

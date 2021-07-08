@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using JsonApiDotNetCore.Resources;
+using JsonApiDotNetCore.Resources.Annotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,14 +8,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace hey_url_challenge_code_dotnet.Models
 {
-    public class Url
+    public class Url : Identifiable<Guid>
     {
         private readonly ILazyLoader lazyLoader;
         private ICollection<Historical> _historical;
 
         public Url()
         {
-
         }
 
         public Url(ILazyLoader lazyLoader)
@@ -22,19 +23,21 @@ namespace hey_url_challenge_code_dotnet.Models
             this.lazyLoader = lazyLoader;
         }
 
-        public Guid Id { get; set; }
-
-        [Required]
+        [Attr, Required]
         public string OriginalUrl { get; set; }
 
-        [Required]
+        [Attr, Required]
         [StringLength(5)]
         public string ShortUrl { get; set; }
 
+        [Attr]
         public int Count { get; set; }
 
+        [Attr]
         public DateTime CreatedAt { get; set; }
-        public virtual ICollection<Historical> Historical 
+
+        [Attr]
+        public virtual ICollection<Historical> Historical
         {
             get => lazyLoader.Load(this, ref _historical);
             set => _historical = value;

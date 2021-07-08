@@ -1,6 +1,7 @@
 using hey_url_challenge_code_dotnet.Repositories;
 using hey_url_challenge_code_dotnet.Services;
 using HeyUrlChallengeCodeDotnet.Data;
+using JsonApiDotNetCore.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,12 @@ namespace HeyUrlChallengeCodeDotnet
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IShortUrlService, ShortUrlService>();
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HeyUrlConnString")));
+            services.AddJsonApi<ApplicationContext>(opt =>
+            {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                opt.IncludeJsonApiVersion = true;
+                opt.IncludeTotalResourceCount = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,11 +56,16 @@ namespace HeyUrlChallengeCodeDotnet
 
             app.UseRouting();
 
+            app.UseJsonApi();
+
+
             app.UseAuthorization();
+
+            app.UseStatusCodePages();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
+               endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
