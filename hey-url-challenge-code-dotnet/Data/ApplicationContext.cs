@@ -7,8 +7,23 @@ namespace HeyUrlChallengeCodeDotnet.Data
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
+            
         }
 
         public DbSet<Url> Urls { get; set; }
+        public DbSet<Historical> Historicals { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Url>()
+                .HasMany(p => p.Historical);
+
+            modelBuilder.Entity<Historical>()
+                .HasOne(p => p.Url);
+
+            modelBuilder.Entity<Url>()
+                .HasIndex(p => p.ShortUrl);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

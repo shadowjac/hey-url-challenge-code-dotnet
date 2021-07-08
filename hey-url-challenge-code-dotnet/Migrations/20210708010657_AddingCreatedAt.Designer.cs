@@ -4,14 +4,16 @@ using HeyUrlChallengeCodeDotnet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace hey_url_challenge_code_dotnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210708010657_AddingCreatedAt")]
+    partial class AddingCreatedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,11 +80,9 @@ namespace hey_url_challenge_code_dotnet.Migrations
 
             modelBuilder.Entity("hey_url_challenge_code_dotnet.Models.Historical", b =>
                 {
-                    b.HasOne("hey_url_challenge_code_dotnet.Models.Url", "Url")
+                    b.HasOne("hey_url_challenge_code_dotnet.Models.Url", null)
                         .WithMany("Historical")
                         .HasForeignKey("UrlId");
-
-                    b.Navigation("Url");
                 });
 
             modelBuilder.Entity("hey_url_challenge_code_dotnet.Models.Url", b =>
