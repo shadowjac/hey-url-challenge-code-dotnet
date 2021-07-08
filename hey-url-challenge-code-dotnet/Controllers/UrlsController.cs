@@ -48,7 +48,7 @@ namespace HeyUrlChallengeCodeDotnet.Controllers
             {
                 TempData["Notice"] = "Invalid URL";
                 return RedirectToAction("Index");
-            }
+            } 
             await this.shortUrlService.CreateShortUrl(model.NewUrl);
             return RedirectToAction("Index");
         }
